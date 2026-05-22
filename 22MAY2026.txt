@@ -1,0 +1,107 @@
+create table departments(
+did int primary key,
+dname varchar(25) not null unique
+);
+insert into departments values
+(101,'CSE'),(102,'ECE'),(103,'civil'),(106,'Aero'),(107,'Mech');
+
+select * from departments order by did;
+
+create table HOD
+(Hid int primary key,
+hname varchar(20) not null unique);
+
+insert into HOD values
+(101,'Arun'),(102,'Jayanth'),(104,'Karthik'),
+(105,'Murali');
+
+select * from HOD;
+
+SELECT * FROM 
+departments CROSS JOIN hod order by did asc;
+
+select * from departments inner join hod 
+where departments.did = hod.hid;
+
+select * from departments natural join hod;
+
+select * from departments left outer join hod on 
+(departments.did = hod.Hid) order by did asc;
+
+select * from departments full outer join hod on 
+(departments.did = hod.Hid) order by did asc;
+
+select * from worker;
+
+select first_name, salary from worker;
+
+select distinct first_name from worker;
+
+CREATE TABLE Bonus (
+	WORKER_REF_ID INT,
+	BONUS_AMOUNT INT(10),
+	BONUS_DATE DATETIME,
+	FOREIGN KEY (WORKER_REF_ID)
+		REFERENCES Worker(WORKER_ID)
+        ON DELETE CASCADE
+);
+
+INSERT INTO Bonus 
+	(WORKER_REF_ID, BONUS_AMOUNT, BONUS_DATE) VALUES
+		(001, 5000, '16-02-20'),
+		(002, 3000, '16-06-11'),
+		(003, 4000, '16-02-20'),
+		(001, 4500, '16-02-20'),
+		(002, 3500, '16-06-11');
+        
+select * from bonus ;
+CREATE TABLE Title (
+	WORKER_REF_ID INT,
+	WORKER_TITLE CHAR(25),
+	AFFECTED_FROM DATETIME,
+	FOREIGN KEY (WORKER_REF_ID)
+		REFERENCES Worker(WORKER_ID)
+        ON DELETE CASCADE
+);
+
+INSERT INTO Title 
+	(WORKER_REF_ID, WORKER_TITLE, AFFECTED_FROM) VALUES
+ (001, 'Manager', '2016-02-20 00:00:00'),
+ (002, 'Executive', '2016-06-11 00:00:00'),
+ (008, 'Executive', '2016-06-11 00:00:00'),
+ (005, 'Manager', '2016-06-11 00:00:00'),
+ (004, 'Asst. Manager', '2016-06-11 00:00:00'),
+ (007, 'Executive', '2016-06-11 00:00:00'),
+ (006, 'Lead', '2016-06-11 00:00:00'),
+ (003, 'Lead', '2016-06-11 00:00:00');
+ 
+ 
+ select first_name as worker_name from worker;
+ 
+ select distinct department from worker;
+
+select *from worker where first_name in('vipul','satish');
+
+select * from worker where first_name like '%a';
+
+select* from worker where department ='admin'
+and salary between 100000 and 300000;
+
+select count(department) from worker where department ='admin';
+
+select distinct salary from worker order by 
+salary desc limit 1,1;
+
+select department from worker group by
+ department having count(*)<3;
+ 
+ select department, count(*) from worker group by department;
+
+select b.first_name,b.department,b.salary 
+from worker b
+ inner join
+(select department, max(salary)
+ as max_salary from worker group by department)
+ m on  b.department = m.department
+and  b.salary = m.max_salary;
+
